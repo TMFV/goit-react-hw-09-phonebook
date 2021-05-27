@@ -15,7 +15,7 @@ const styles = {
   },
 };
 function RegisterView({ onRegister }) {
-  const [name, setName] = useState("");
+  /*   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleNameChange = (event) => {
@@ -26,13 +26,30 @@ function RegisterView({ onRegister }) {
   };
   const handlePasswordChange = (event) => {
     setPassword(event.currentTarget.value);
+  }; */
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleUserChange = (event) => {
+    let inputName = event.currentTarget.name;
+    let inputValue = event.currentTarget.value;
+    setUser((prev) => ({
+      ...prev,
+      [inputName]: inputValue,
+    }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister({ name: name, email: email, password: password });
-    setName("");
-    setEmail("");
-    setPassword("");
+    onRegister({ name: user.name, email: user.email, password: user.password });
+    setUser({
+      name: "",
+      email: "",
+      password: "",
+    });
   };
   return (
     <div>
@@ -43,23 +60,23 @@ function RegisterView({ onRegister }) {
           label="Name:"
           type="text"
           name="name"
-          value={name}
-          onChange={handleNameChange}
+          value={user.name}
+          onChange={handleUserChange}
         />
 
         <TextField
           label="E-mail:"
           type="email"
           name="email"
-          value={email}
-          onChange={handleEmailChange}
+          value={user.email}
+          onChange={handleUserChange}
         />
         <TextField
           label="Password:"
           type="password"
           name="password"
-          value={password}
-          onChange={handlePasswordChange}
+          value={user.password}
+          onChange={handleUserChange}
         />
         <br />
         <Button

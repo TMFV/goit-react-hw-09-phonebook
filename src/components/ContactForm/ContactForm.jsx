@@ -5,25 +5,38 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 function ContactForm({ onSubmitData }) {
-  const [nameState, setNameState] = useState("");
+  /* const [nameState, setNameState] = useState("");
   const [numberState, setNumberState] = useState("");
   const handleNameChange = (event) => {
     setNameState(event.currentTarget.value);
   };
   const handleNumberChange = (event) => {
     setNumberState(event.currentTarget.value);
+  }; */
+
+  const [contact, setContact] = useState({
+    name: "",
+    number: "",
+  });
+
+  const handleContactChange = (event) => {
+    let inputName = event.currentTarget.name;
+    let inputValue = event.currentTarget.value;
+    setContact((prev) => ({
+      ...prev,
+      [inputName]: inputValue,
+    }));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    let contactForAdd = { name: nameState, number: numberState };
+    let contactForAdd = { name: contact.name, number: contact.number };
 
     onSubmitData(contactForAdd);
 
     reset();
   };
   const reset = () => {
-    setNameState("");
-    setNumberState("");
+    setContact({ name: "", number: "" });
   };
 
   return (
@@ -36,8 +49,8 @@ function ContactForm({ onSubmitData }) {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
           required
-          onChange={handleNameChange}
-          value={nameState}
+          onChange={handleContactChange}
+          value={contact.name}
         />
         <TextField
           label="Number:"
@@ -46,8 +59,8 @@ function ContactForm({ onSubmitData }) {
           pattern="(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})"
           title="Номер телефона должен состоять из 11-12 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +"
           required
-          onChange={handleNumberChange}
-          value={numberState}
+          onChange={handleContactChange}
+          value={contact.number}
         />
         <br />
         <Button
