@@ -1,4 +1,4 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import AppBar from "./components/AppBar";
@@ -11,32 +11,30 @@ const LoginView = lazy(() => import("./views/LoginView"));
 const RegisterView = lazy(() => import("./views/RegisterView"));
 const ContactsView = lazy(() => import("./views/ContactsView"));
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onGetCurrentUser();
-  }
+function App({ onGetCurrentUser }) {
+  useEffect(() => {
+    onGetCurrentUser();
+  }, []);
 
-  render() {
-    return (
-      <div className="App">
-        <AppBar />
-        <Suspense fallback={<p>Loading...</p>}>
-          <Switch>
-            <Route exact path="/" component={HomeView} />
-            <PublicRoute path="/register" redirectTo="/contacts" restricted>
-              <Route path="/register" component={RegisterView} />
-            </PublicRoute>
-            <PublicRoute path="/login" redirectTo="/contacts" restricted>
-              <Route path="/login" component={LoginView} />
-            </PublicRoute>
-            <PrivateRoute path="/contacts" redirectTo="/login">
-              <Route path="/contacts" component={ContactsView} />
-            </PrivateRoute>
-          </Switch>
-        </Suspense>
-      </div>
-    );
-  }
+  return (
+    <div className="App">
+      <AppBar />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <Route exact path="/" component={HomeView} />
+          <PublicRoute path="/register" redirectTo="/contacts" restricted>
+            <Route path="/register" component={RegisterView} />
+          </PublicRoute>
+          <PublicRoute path="/login" redirectTo="/contacts" restricted>
+            <Route path="/login" component={LoginView} />
+          </PublicRoute>
+          <PrivateRoute path="/contacts" redirectTo="/login">
+            <Route path="/contacts" component={ContactsView} />
+          </PrivateRoute>
+        </Switch>
+      </Suspense>
+    </div>
+  );
 }
 
 const mapDispatchToProrps = {
