@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import authOperations from "../redux/auth/auth-operations";
 import Button from "@material-ui/core/Button";
@@ -14,73 +14,65 @@ const styles = {
     marginBottom: 15,
   },
 };
-
-class RegisterView extends Component {
-  state = {
-    name: "",
-    email: "",
-    password: "",
+function RegisterView({ onRegister }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleNameChange = (event) => {
+    setName(event.currentTarget.value);
   };
-
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
+  const handleEmailChange = (event) => {
+    setEmail(event.currentTarget.value);
   };
-
-  handleSubmit = (e) => {
+  const handlePasswordChange = (event) => {
+    setPassword(event.currentTarget.value);
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    this.props.onRegister(this.state);
-
-    this.setState({ name: "", email: "", password: "" });
+    onRegister({ name: name, email: email, password: password });
+    setName("");
+    setEmail("");
+    setPassword("");
   };
+  return (
+    <div>
+      <h1 style={{ fontFamily: "Roboto" }}>Registration</h1>
 
-  render() {
-    const { name, email, password } = this.state;
+      <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
+        <TextField
+          label="Name:"
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleNameChange}
+        />
 
-    return (
-      <div>
-        <h1 style={{ fontFamily: "Roboto" }}>Registration</h1>
-
-        <form
-          onSubmit={this.handleSubmit}
-          style={styles.form}
-          autoComplete="off"
+        <TextField
+          label="E-mail:"
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <TextField
+          label="Password:"
+          type="password"
+          name="password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <br />
+        <Button
+          style={{ marginTop: 25 }}
+          type="submit"
+          variant="contained"
+          color="primary"
         >
-          <TextField
-            label="Name:"
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-          />
-
-          <TextField
-            label="E-mail:"
-            type="email"
-            name="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-          <TextField
-            label="Password:"
-            type="password"
-            name="password"
-            value={password}
-            onChange={this.handleChange}
-          />
-          <br />
-          <Button
-            style={{ marginTop: 25 }}
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            SIGN UP 🟦
-          </Button>
-        </form>
-      </div>
-    );
-  }
+          SIGN UP 🟦
+        </Button>
+      </form>
+    </div>
+  );
 }
 //Short version
 const mapDispatchToProps = {
