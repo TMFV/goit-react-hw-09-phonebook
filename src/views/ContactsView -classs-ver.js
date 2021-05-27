@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Component } from "react";
 import ContactForm from "../components/ContactForm/ContactForm";
 import ContactList from "../components/ContactList/ContactList";
 import Filter from "../components/Filter/Filter";
@@ -7,27 +7,26 @@ import appOperations from "../redux/app/app-operations";
 import { connect } from "react-redux";
 import selectors from "../redux/app/contacts-selectors";
 
-function ContactsView({
-  fetchContacts,
-  isLoadingContacts,
-  formSubmitHandler,
-  filterSet,
-  visibleArray,
-  contactDelete,
-}) {
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-  return (
-    <div className="contacts">
-      <h1>Phonebook</h1>
-      {isLoadingContacts && <h2>Loading ...</h2>}
-      <ContactForm onSubmitData={formSubmitHandler} />
-      <h1>Contacts</h1>
-      <Filter setFilterToState={filterSet} />
-      <ContactList contacts={visibleArray} del={contactDelete} />
-    </div>
-  );
+class ContactsView extends Component {
+  componentDidMount() {
+    this.props.fetchContacts();
+  }
+
+  render() {
+    return (
+      <div className="contacts">
+        <h1>Phonebook</h1>
+        {this.props.isLoadingContacts && <h2>Loading ...</h2>}
+        <ContactForm onSubmitData={this.props.formSubmitHandler} />
+        <h1>Contacts</h1>
+        <Filter setFilterToState={this.props.filterSet} />
+        <ContactList
+          contacts={this.props.visibleArray}
+          del={this.props.contactDelete}
+        />
+      </div>
+    );
+  }
 }
 const mapStateToProps = (state) => ({
   isLoadingContacts: selectors.getIsLoading(state),
