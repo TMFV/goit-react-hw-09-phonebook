@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+
 const styles = {
   link: {
-    margin: 5,
     display: "block",
+    margin: 5,
     color: "white",
   },
   activeLink: {
@@ -14,37 +15,37 @@ const styles = {
 };
 
 const AuthNav = () => (
-  <div>
-    <Button
-      type="click"
-      variant="contained"
-      color="primary"
-      style={{ height: 30 }}
+  <div style={{ display: "flex" }}>
+    <NavLink
+      to="/register"
+      exact
+      style={styles.link}
+      activeStyle={styles.activeLink}
     >
-      <NavLink
-        to="/register"
-        exact
-        style={styles.link}
-        activeStyle={styles.activeLink}
+      <Button
+        type="button"
+        variant="contained"
+        color="primary"
+        style={{ height: 30 }}
       >
         Registration
-      </NavLink>
-    </Button>
-    <Button
-      style={{ marginLeft: 15, height: 30 }}
-      type="click"
-      variant="contained"
-      color="primary"
+      </Button>
+    </NavLink>
+    <NavLink
+      to="/login"
+      exact
+      style={styles.link}
+      activeStyle={styles.activeLink}
     >
-      <NavLink
-        to="/login"
-        exact
-        style={styles.link}
-        activeStyle={styles.activeLink}
+      <Button
+        style={{ marginLeft: 15, height: 30 }}
+        type="button"
+        variant="contained"
+        color="primary"
       >
         Login
-      </NavLink>
-    </Button>
+      </Button>
+    </NavLink>
   </div>
 );
 
